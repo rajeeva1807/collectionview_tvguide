@@ -159,19 +159,24 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 
         if (cell.myLabel == nil) {
 
-            cell.myLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 75))
+            cell.myLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 150, height: 75))
             cell.myLabel.isOpaque = true;
 
-            cell.myLabel.textColor = UIColor.black
-            cell.myLabel.textAlignment = NSTextAlignment.center
+//            cell.myLabel.textColor = UIColor.black
+//            cell.myLabel.textAlignment = NSTextAlignment.center
             cell.contentView.addSubview(cell.myLabel)
         
         }
         
+        cell.myLabel.textColor = UIColor.black
+        cell.myLabel.textAlignment = NSTextAlignment.left
+        cell.myLabel.backgroundColor = UIColor.clear
+
+        
         if !collectionview.collectionViewLayout.isMember(of: CustomCollectionViewLayout.self) {
            
             cell.myLabel.text = "Item ".appendingFormat("%d", indexPath.section).appendingFormat("%d", indexPath.item+1)
-            cell.myLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 75)
+            cell.myLabel.frame = CGRect(x: 0, y: 0, width: 150, height: 75)
 
 
         } else {
@@ -179,8 +184,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 if (indexPath.item == 0) {
                     cell.myLabel.frame = CGRect(x: 0, y: 0, width: CV_WIDTH, height: 75)
                     cell.myLabel.text = "COMMERCIAL";
+                    cell.myLabel.textAlignment = NSTextAlignment.center
+                    cell.myLabel.backgroundColor = UIColor.red
+                    cell.myLabel.textColor = UIColor.yellow
+
                 } else {
-                    cell.myLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 75)
+                    cell.myLabel.frame = CGRect(x: 0, y: 0, width: 150, height: 75)
                     cell.myLabel.text = nil;
                     
                 }
@@ -188,6 +197,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 cell.myLabel.text = " Prog ".appendingFormat("%d", indexPath.section).appendingFormat("%d", indexPath.item+1)
             } else {
                 cell.myLabel.text = " Time slot ".appendingFormat("%d", indexPath.section).appendingFormat("%d", indexPath.item+1)
+                cell.myLabel.backgroundColor = UIColor.systemBlue
+                cell.myLabel.textColor = UIColor.white
+                cell.myLabel.textAlignment = NSTextAlignment.center
+
+
+                
             }
         }
         
