@@ -80,6 +80,31 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         b5.setTitle("Remove item at 2nd index", for: UIControl.State.normal)
         b5.setTitle("Remove item at 2nd index", for: UIControl.State.focused)
         b5.addTarget(self, action: #selector(removeAtOne), for: UIControl.Event.touchDown)
+        
+        b1.backgroundColor = UIColor.systemBlue
+        b1.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        b1.setTitleColor(UIColor.white, for: UIControl.State.focused)
+        b1.layer.cornerRadius = 10
+
+        b2.backgroundColor = UIColor.systemBlue
+        b2.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        b2.setTitleColor(UIColor.white, for: UIControl.State.focused)
+        b2.layer.cornerRadius = 10
+        
+        b3.backgroundColor = UIColor.systemBlue
+        b3.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        b3.setTitleColor(UIColor.white, for: UIControl.State.focused)
+        b3.layer.cornerRadius = 10
+        
+        b4.backgroundColor = UIColor.systemBlue
+        b4.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        b4.setTitleColor(UIColor.white, for: UIControl.State.focused)
+        b4.layer.cornerRadius = 10
+        
+        b5.backgroundColor = UIColor.systemBlue
+        b5.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        b5.setTitleColor(UIColor.white, for: UIControl.State.focused)
+        b5.layer.cornerRadius = 10
 
         self.view.addSubview(b1)
         self.view.addSubview(b2)
@@ -88,12 +113,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         self.view.addSubview(b5)
         
         self.setCustomLayoutAttributes()
+        //collectionview.reloadData();
+
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
-        let edgeInsets = self.view.safeAreaInsets
         var collViewFrame = collectionview.frame
-        collViewFrame = CGRect(x: collViewFrame.origin.x, y: edgeInsets.top, width: collViewFrame.size.width, height: collViewFrame.size.height)
+        collViewFrame = CGRect(x: collViewFrame.origin.x, y: 0, width: collViewFrame.size.width, height: DEVICE_HEIGHT)
+        collectionview.contentInsetAdjustmentBehavior = .always
         collectionview.frame = collViewFrame
 
     }
@@ -131,7 +159,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 
         if (cell.myLabel == nil) {
 
-            cell.myLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+            cell.myLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: 100, height: 75))
             cell.myLabel.isOpaque = true;
 
             cell.myLabel.textColor = UIColor.black
@@ -143,16 +171,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         if !collectionview.collectionViewLayout.isMember(of: CustomCollectionViewLayout.self) {
            
             cell.myLabel.text = "Item ".appendingFormat("%d", indexPath.section).appendingFormat("%d", indexPath.item+1)
-            cell.myLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+            cell.myLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 75)
 
 
         } else {
             if (indexPath.section == 4) {
                 if (indexPath.item == 0) {
-                    cell.myLabel.frame = CGRect(x: 0, y: 0, width: CV_WIDTH, height: 40)
+                    cell.myLabel.frame = CGRect(x: 0, y: 0, width: CV_WIDTH, height: 75)
                     cell.myLabel.text = "COMMERCIAL";
                 } else {
-                    cell.myLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+                    cell.myLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 75)
                     cell.myLabel.text = nil;
                     
                 }
@@ -171,10 +199,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         var view: UICollectionReusableView;
         if (kind == UICollectionView.elementKindSectionHeader) {
             view = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
-            view.backgroundColor = UIColor.red;
+            view.backgroundColor = UIColor.systemBlue;
         } else {
             view = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath)
-            view.backgroundColor = UIColor.green;
+            view.backgroundColor = UIColor.purple;
         }
         return view;
     }
@@ -259,22 +287,44 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     // MARK: *** Util methods ***
     
-    @objc func setVerticalLayoutAttributes() {
-        self.setHorizontalLayoutAttributes()
-        let flowlayout = collectionview.collectionViewLayout as! UICollectionViewFlowLayout
-        flowlayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
-    }
-    
-    @objc func setHorizontalLayoutAttributes() {
-
+    func createTemplateFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout.init()
         flowLayout.minimumLineSpacing = 1
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.itemSize = CGSize(width: Int(ITEM_WIDTH), height: Int(ITEM_HEIGHT))
         flowLayout.headerReferenceSize = CGSize(width: 50, height: 50)
-        flowLayout.footerReferenceSize = CGSize(width: 100, height: 100)
+        flowLayout.footerReferenceSize = CGSize(width: 50, height: 50)
+        return flowLayout
+    }
+    
+    @objc func setVerticalLayoutAttributes() {
+        
+        let flowLayout = createTemplateFlowLayout()
+        //collectionview.collectionViewLayout.invalidateLayout()
+
         collectionview.setCollectionViewLayout(flowLayout, animated: false)
         collectionview.reloadData();
+        
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        
+        //collectionview.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+
+        b4.isHidden = false
+        b5.isHidden = false
+    }
+    
+    @objc func setHorizontalLayoutAttributes() {
+
+        let flowLayout = createTemplateFlowLayout()
+        //collectionview.collectionViewLayout.invalidateLayout()
+
+        collectionview.setCollectionViewLayout(flowLayout, animated: false)
+        collectionview.reloadData();
+        
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+                
+        //collectionview.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+
 
         b4.isHidden = false
         b5.isHidden = false
@@ -283,10 +333,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @objc func setCustomLayoutAttributes() {
         
         let layout = CustomCollectionViewLayout()
+        //collectionview.collectionViewLayout.invalidateLayout()
         collectionview.setCollectionViewLayout(layout, animated: false)
         numberItemsInsec1 = NSInteger(NUMBER_OF_TIME_SLOTS);
         numberItemsInsec2 = NSInteger(NUMBER_OF_TIME_SLOTS);
-        collectionview.reloadData();
+        
+        collectionview.reloadData()
+        
+        //collectionview.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         
         b4.isHidden = true
         b5.isHidden = true
